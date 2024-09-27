@@ -2,9 +2,9 @@ package com.fatecrl.blog.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.jersey.JerseyProperties.Servlet;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -41,6 +42,17 @@ public class BlogController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping
+    public List<Blog> postagensPorAutor(@RequestParam(required = false) String autor){
+        if (autor != null){
+            return listaDePostagens.stream()
+                    .filter(_blog -> blog.getAutor().equalsIgnoreCase(autor))
+                    .collect(Collectors.toList());
+        } else{
+            return listaDePostagens;
+        }
+         
+
     @PostMapping
     public ResponseEntity<Blog> create(@RequestBody Blog blog){
         service.create(blog);
@@ -52,7 +64,7 @@ public class BlogController {
         return ResponseEntity.created(location).body(blog);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<Blog> update(@RequestBody Blog blog){
         if(service.update(blog)){
             return ResponseEntity.ok(blog);
@@ -67,8 +79,5 @@ public class BlogController {
         }
         return ResponseEntity.notFound().build();
     }
-
-
-    
-
+}
 }

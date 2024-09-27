@@ -1,8 +1,7 @@
 package com.fatecrl.blog.model;
 
 import java.io.Serializable;
-
-import javax.xml.crypto.Data;
+import java.time.LocalDate;
 
 public class Blog implements Serializable {
 
@@ -10,8 +9,8 @@ public class Blog implements Serializable {
     private String titulo;
     private String conteudo;
     private String autor;
-    private Data dataPublicacao;
-    
+    private LocalDate dataPublicacao; // Certifique-se de que é LocalDate
+
     public Blog(){
 
     }
@@ -43,12 +42,15 @@ public class Blog implements Serializable {
     public void setAutor(String autor) {
         this.autor = autor;
     }
-    public Data getDataPublicacao() {
+
+    public LocalDate getDataPublicaçao(){
         return dataPublicacao;
     }
-    public void setDataPublicacao(Data dataPublicacao) {
+
+    public void setDataPublicacao(LocalDate dataPublicacao) {
         this.dataPublicacao = dataPublicacao;
     }
+    
 
     @Override
     public int hashCode() {
@@ -71,7 +73,4 @@ public class Blog implements Serializable {
             return false;
         return true;
     }
-
-    
-
 }

@@ -1,7 +1,9 @@
 package com.fatecrl.blog.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 
 import org.springframework.stereotype.Service;
 
@@ -17,7 +19,7 @@ public class BlogService {
         postagemTeste.setTitulo("Primeira Postagem");
         postagemTeste.setConteudo("Primeiro post do blog");
         postagemTeste.setAutor("Bruno Santos");
-        postagemTeste.setDataPublicacao(26092024);
+        postagemTeste.setDataPublicacao(LocalDate.of(2024, 9, 26));
         listaDePostagens.add(postagemTeste);
     }
 
@@ -45,9 +47,29 @@ public class BlogService {
         return blog;
     }
 
+    public Boolean delete(Long id){
+        Blog blog = this.getById(id);
+        if(blog != null){
+            listaDePostagens.remove(blog);
+            return true;
+        }
+        return false;
+    }
 
-
-
-
-
+    public Boolean update(Blog blogParam){
+        Blog postExiste = this.getById(blogParam.getId());
+        if(postExiste != null){
+            if(blogParam.getTitulo() != null && !blogParam.getTitulo().isEmpty()){
+                postExiste.setTitulo(blogParam.getTitulo());
+            }
+            if(blogParam.getConteudo() != null && !blogParam.getConteudo().isEmpty()){
+               postExiste.setConteudo(blogParam.getConteudo()); 
+            }
+            return true;
+        }
+        return false;
+    }
 }
+
+
+
