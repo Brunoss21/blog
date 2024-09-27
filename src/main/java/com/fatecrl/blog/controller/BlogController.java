@@ -42,7 +42,7 @@ public class BlogController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping
+    @GetMapping("/autor")
     public List<Blog> postagensPorAutor(@RequestParam(required = false) String autor){
         if (autor != null){
             return listaDePostagens.stream()
@@ -54,7 +54,7 @@ public class BlogController {
          
 
     @PostMapping
-    public ResponseEntity<Blog> create(@RequestBody Blog blog){
+    public ResponseEntity<Blog> create(@RequestBody Blog blog) {
         service.create(blog);
         URI location = ServletUriComponentsBuilder
                             .fromCurrentRequest()
@@ -66,13 +66,14 @@ public class BlogController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Blog> update(@RequestBody Blog blog){
+        blog.setId(id);
         if(service.update(blog)){
             return ResponseEntity.ok(blog);
         }
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping
     public ResponseEntity<Blog> delete(@PathVariable("id")Long id){
         if (service.delete(id)){
             return ResponseEntity.noContent().build();
